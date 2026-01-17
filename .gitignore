@@ -3,3 +3,7 @@
 respuesta_G.json
 respuesta_OP.json
 respuesta.json
+datasets/
+node_modules/
+Salida.jsonl
+.env
