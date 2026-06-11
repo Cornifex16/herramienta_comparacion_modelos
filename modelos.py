@@ -54,24 +54,30 @@ def llamadaGroq(texto, id):
     
     return respuesta
 
-def llamadaOpenRouter(texto, id):
+def llamadaOpenRouter(texto, id, modelo, temperature, max_tokens):
     url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
         "Authorization": f"Bearer {os.environ.get('OPENROUTER_API_KEY')}",
         "Content-Type": "application/json"
     }
     payload = {
-        "model": "meta-llama/llama-3.3-70b-instruct:free",
+        "model": modelo,
         "messages": [
+            {
+                "role": "system",
+                "content": "You are a topic generator."
+            },
             {
                 "role": "user",
                 "content": texto
             }
-        ]
+        ],
+        "temperature": temperature,
+        "max_tokens": max_tokens,
     }
 
     response = requests.post(url, headers=headers, json=payload)
-
+    response.raise_for_status()
     data = response.json()
 
     respuesta = {
